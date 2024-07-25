@@ -1,0 +1,11 @@
+SUGERENCIA:
+1 -> crear carrito usuario logueado => authenticate
+2 -> visitas del usuario por cookie
+3 -> login fallidos -> count 3 -> bloqueado 2min.
+
+
+
+
+
+
+
