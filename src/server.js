@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import sessionRoutes from "./routes/session.routes.js";
 import userRoutes from "./routes/user.routes.js";
+import carritotRoutes from "./routes/carrito.routes.js";
 import morgan from "morgan";
 import { initializePassport } from "./config/passport.config.js";
 import passport from "passport";
@@ -34,6 +35,7 @@ mongoose
 // Routes
 app.use("/api/sessions", sessionRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/carrito", carritotRoutes);
 
 app.listen(PORT, () => {
     console.log(`Servidor escuchando en el puerto http://localhost:${PORT}`);

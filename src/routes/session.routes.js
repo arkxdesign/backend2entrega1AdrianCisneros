@@ -2,7 +2,7 @@ import { Router } from "express";
 import { userModel } from "../models/user.models.js";
 import { createHash } from "../utils/hash.js";
 import { verifyToken, generateToken } from "../utils/jwt.js";
-import { authenticate, authorize, denegate } from "../middlewares/auth.middleware.js";
+import { authenticate, denegate } from "../middlewares/auth.middleware.js";
 import passport from "passport";
 
 
@@ -23,7 +23,7 @@ router.post("/login",denegate, passport.authenticate("login", { session: false, 
     visitCount += 1;
 
     res.cookie('visitCount', visitCount, { maxAge: 100000, httpOnly: true });
-    res.cookie("currentUser", token, { maxAge: 100000, httpOnly: true });
+    res.cookie("currentUser", token, { maxAge: 190000, httpOnly: true });
     res.status(200).json({ message: "Login exitoso" });
 });
 
@@ -32,7 +32,7 @@ router.get("/login-error", (req, res) => {
 });
 
 
-router.get("/current", async (req, res) => {
+router.get("/current",authenticate, async (req, res) => {
     const token = req.cookies.currentUser;
     if (!token) {
         return res.status(401).json({ error: "No autorizado" });
@@ -50,7 +50,7 @@ router.get("/current", async (req, res) => {
     }
 });
 
-router.post("/register", authenticate, authorize, async (req, res) => {
+router.post("/register", async (req, res) => {
     const { first_name, last_name, email, age, role, password } = req.body;
     if (!first_name || !last_name || !email || !age || !password) {
         return res.status(400).json({ error: "Todos los campos <first_name, last_name, email, age, password> son obligatorios" });
